@@ -3,9 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var expressjwt = require('express-jwt');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/login')
 
 var app = express();
 
@@ -19,8 +21,34 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//cross domain accept
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+//jwt token authen
+app.use(expressjwt({
+  secret:"goodmorning"
+}).unless({
+  path:[
+    '/',
+    '/:id',
+    '/login',
+  ]
+}));
+app.use(function (err, req, res, next) {
+
+  if (err.name === 'UnauthorizedError') {
+
+      res.status(401).send('invalid token...');
+  }
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login',loginRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
