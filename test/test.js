@@ -1,6 +1,7 @@
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let app = require("../app");
+let jwt =require('jsonwebtoken');
 let { expect } = chai;
 let should = chai.should();
 
@@ -85,4 +86,47 @@ describe("test searchbook, GET /books:keyword", () => {
                 done();
             });
     });
+});
+
+describe("test view user appointment, GET /appointment", () => {
+    it("should show user appointment", (done)=>{
+        const token = jwt.sign({
+            "userid": 7,
+            "usertype": "normaluser",
+            "otherid": 5
+        }, "goodmorning", { expiresIn: 60 * 60 });
+        chai.request(app)
+            .get('/userbooking')
+            .set('Authorization',`Bearer ${ token }`)
+            .end((err,res)=>{
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                
+                
+                done();
+            });
+
+    });
+
+    it("should delete an appoinmnet by id", (done)=>{
+        const token = jwt.sign({
+            "userid": 7,
+            "usertype": "normaluser",
+            "otherid": 5
+        }, "goodmorning", { expiresIn: 60 * 60 });
+
+        chai.request(app)
+            .delete('/userbooking/21')
+            .set('Authorization',`Bearer ${ token }`)
+            .send({'bookid':6})
+            .end((err,res)=>{
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.succeed.should.be.eq(true);
+                
+                done();
+            });
+    });
+
+    
 });
