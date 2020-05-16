@@ -38,6 +38,7 @@ app.use(expressjwt({
     '/',
     '/:id',
     '/login',
+    '/login/check',
     '/register',
     '/books',
     /^\/books\/.*/,

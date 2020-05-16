@@ -43,26 +43,42 @@ describe("test login, POST /login", () => {
             });
     });
 
-
-});
-
-describe("test register, POST /register", () => {
-    it("should register a new account.", (done)=>{
+    it("should return islogin.",(done)=>{
+        const token = jwt.sign({
+            "userid": 7,
+            "usertype": "normaluser",
+            "otherid": 5
+        }, "goodmorning", { expiresIn: 60 * 60 });
         chai.request(app)
-            .post('/register')
-            .send({
-                username: "customer02@gmail.com",
-                password: "a123456789"
-            })
+            .post('/login/check')
+            .set('Authorization',`Bearer ${ token }`)
             .end((err,res)=>{
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                res.body.succeed.should.be.eq(true);
+                res.body.isLogin.should.be.eq(true);
                 done();
             });
-
     });
+
 });
+
+// describe("test register, POST /register", () => {
+//     it("should register a new account.", (done)=>{
+//         chai.request(app)
+//             .post('/register')
+//             .send({
+//                 username: "customer02@gmail.com",
+//                 password: "a123456789"
+//             })
+//             .end((err,res)=>{
+//                 res.should.have.status(200);
+//                 res.body.should.be.a('object');
+//                 res.body.succeed.should.be.eq(true);
+//                 done();
+//             });
+
+//     });
+// });
 
 describe("test searchbook, GET /books:keyword", () => {
     it("should search book by keywordk.", (done)=>{
@@ -129,4 +145,30 @@ describe("test view user appointment, GET /appointment", () => {
     });
 
     
+});
+
+
+describe("test make appointment",()=>{
+    it("should make appoint succeed",(done)=>{
+        const token = jwt.sign({
+            "userid": 7,
+            "usertype": "normaluser",
+            "otherid": 5
+        }, "goodmorning", { expiresIn: 60 * 60 });
+
+        chai.request(app)
+            .post('/userbooking/make')
+            .set('Authorization',`Bearer ${ token }`)
+            .send({'bookid':6})
+            .end((err,res)=>{
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.property('apointid');
+                
+                
+                done();
+            });
+
+    })
+
 });
