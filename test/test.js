@@ -62,3 +62,27 @@ describe("test register, POST /register", () => {
 
     });
 });
+
+describe("test searchbook, GET /books:keyword", () => {
+    it("should search book by keywordk.", (done)=>{
+        chai.request(app)
+            .get('/books?keyword=R')
+            .end((err,res)=>{
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                
+                done();
+            });
+
+    });
+
+    it("should show the book author and title by id.",(done)=>{
+        chai.request(app)
+            .get('/books/8')
+            .end((err,res)=>{
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                done();
+            });
+    });
+});

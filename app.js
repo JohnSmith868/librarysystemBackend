@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
+var booksearchRouter = require('./routes/booksearch');
 
 var app = express();
 
@@ -37,6 +38,8 @@ app.use(expressjwt({
     '/:id',
     '/login',
     '/register',
+    '/books',
+    /^\/books\/.*/,
   ]
 }));
 app.use(function (err, req, res, next) {
@@ -51,6 +54,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login',loginRouter);
 app.use('/register',registerRouter);
+app.use('/books',booksearchRouter);
+app.use('/books/:bookid',booksearchRouter);
 
 
 // catch 404 and forward to error handler
