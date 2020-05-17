@@ -11,6 +11,7 @@ var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
 var booksearchRouter = require('./routes/booksearch');
 var userbookingRouter = require('./routes/userbooking');
+var managerappointsRouter = require('./routes/managerAppointment');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use(expressjwt({
     '/',
     '/:id',
     '/login',
+    '/login/manager',
     '/login/check',
     '/register',
     '/books',
@@ -60,6 +62,7 @@ app.use('/books',booksearchRouter);
 app.use('/books/:bookid',booksearchRouter);
 app.use('/userbooking',userbookingRouter);
 app.use('/userbooking/:appointmentid',userbookingRouter);
+app.use('/appointments',managerappointsRouter);
 
 
 // catch 404 and forward to error handler

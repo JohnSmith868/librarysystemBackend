@@ -172,3 +172,50 @@ describe("test make appointment",()=>{
     })
 
 });
+
+
+describe("test show appointments /appointments",()=>{
+    it("should show all appoints ",(done)=>{
+        const token = jwt.sign({
+            "userid": 7,
+            "usertype": "manager",
+            "otherid": 5
+        }, "goodmorning", { expiresIn: 60 * 60 });
+
+        chai.request(app)
+            .get('/appointments')
+            .set('Authorization',`Bearer ${ token }`)
+            
+            .end((err,res)=>{
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                
+                
+                
+                done();
+            });
+
+    });
+
+    it("should confirm an appointment.",(done)=>{
+        const token = jwt.sign({
+            "userid": 7,
+            "usertype": "manager",
+            "otherid": 5
+        }, "goodmorning", { expiresIn: 60 * 60 });
+
+        chai.request(app)
+        .put('/appointments/confirm/27')
+        .set('Authorization',`Bearer ${ token }`)
+        .end((err,res)=>{
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.succeed.should.be.eq(true);
+            
+            
+            done();
+        });
+
+    })
+
+});
