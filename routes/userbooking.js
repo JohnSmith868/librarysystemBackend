@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 
 //show user's bookings (appointments)
 router.get('/', function (req, res, next) {
-    var sql = "select apointment.apointid, apointment.status, apointment.apointdate,  books.bookid, apointment.deadline, books.bookname, books.ISBN, books.author from apointment,books where apointment.normaluserid = ? and apointment.bookid = books.bookid;";
+    var sql = "select apointment.apointid, apointment.status, apointment.apointdate,  books.bookid, apointment.deadline, books.bookname, books.ISBN, books.author from apointment,books where apointment.normaluserid = ? and apointment.bookid = books.bookid and apointment.status<>'collected';";
     let token = req.headers['authorization'];
 
     var normaluserid = null;
@@ -24,8 +24,8 @@ router.get('/', function (req, res, next) {
         })
 
         pool.query(sql, [normaluserid], (err, rows) => {
-
             res.send(rows);
+
         });
     } catch (error) {
         console.log(error);
@@ -44,6 +44,7 @@ router.delete('/:appointmentid', (req, res, next) => {
     var normaluserid = null;
     var appointmentid = req.params.appointmentid;
     var bookid = req.body.bookid;
+    console.log(bookid+"this is bookid");
     if (token.startsWith('Bearer ')) {
         // Remove Bearer from string
         token = token.slice(7, token.length);

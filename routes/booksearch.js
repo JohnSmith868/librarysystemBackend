@@ -6,7 +6,8 @@ var pool = require('../mysql');
 router.get('/', function (req, res, next) {//search book
     var sql = "select books.bookname, books.author, books.ISBN, books.status, books.bookid from books where bookname like ? or author like ?"
     try {
-        pool.query(sql, ['%' + req.params.keyword + '%', '%' + req.params.keyword + '%'], function (err, rows, field) {
+        pool.query(sql, ['%' + req.query.keyword + '%', '%' + req.query.keyword + '%'], function (err, rows, field) {
+            console.log(req.params);
             if (!err) {
                 res.send(rows);
 
