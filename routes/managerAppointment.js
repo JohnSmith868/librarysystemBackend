@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken');
 
 //show all appointment
 router.get('/', function (req, res, next) {
-    var showappointments = "select * from apointment WHERE status <> 'collected'";
+    var showappointments = "select apointment.apointid, books.bookname, apointment.status, apointment.apointdate,  books.bookid, apointment.deadline, books.bookname, books.ISBN, books.author from apointment,books where apointment.bookid = books.bookid and apointment.status<>'collected';";
     let token = req.headers['authorization'];
     var manageruserid = null;
     var usertype = null;

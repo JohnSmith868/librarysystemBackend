@@ -13,6 +13,7 @@ var booksearchRouter = require('./routes/booksearch');
 var userbookingRouter = require('./routes/userbooking');
 var managerappointsRouter = require('./routes/managerAppointment');
 var booksmanagementRouter = require('./routes/booksmanagement');
+var userBorrowRouter = require('./routes/borrow');
 
 var app = express();
 
@@ -67,6 +68,7 @@ app.use('/userbooking',userbookingRouter);
 app.use('/userbooking/:appointmentid',userbookingRouter);
 app.use('/appointments',managerappointsRouter);
 app.use('/managebooks',booksmanagementRouter);
+app.use('/borrow',userBorrowRouter);
 
 
 // catch 404 and forward to error handler
