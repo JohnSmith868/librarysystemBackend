@@ -62,23 +62,23 @@ describe("test login, POST /login", () => {
 
 });
 
-// describe("test register, POST /register", () => {
-//     it("should register a new account.", (done)=>{
-//         chai.request(app)
-//             .post('/register')
-//             .send({
-//                 username: "customer02@gmail.com",
-//                 password: "a123456789"
-//             })
-//             .end((err,res)=>{
-//                 res.should.have.status(200);
-//                 res.body.should.be.a('object');
-//                 res.body.succeed.should.be.eq(true);
-//                 done();
-//             });
+describe("test register, POST /register", () => {
+    it("should register a new account.", (done)=>{
+        chai.request(app)
+            .post('/register')
+            .send({
+                username: "customer02@gmail.com",
+                password: "a123456789"
+            })
+            .end((err,res)=>{
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.succeed.should.be.eq(true);
+                done();
+            });
 
-//     });
-// });
+    });
+});
 
 describe("test searchbook, GET /books:keyword", () => {
     it("should search book by keywordk.", (done) => {
