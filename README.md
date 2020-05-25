@@ -130,3 +130,10 @@ describe("test login, POST /login", () => {
  });
  .....
 ```
+# http listening port
+## in ./bin/www
+```javascript
+.......
+var port = normalizePort(process.env.PORT || '4000');
+.......
+```
